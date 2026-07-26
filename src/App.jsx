@@ -239,13 +239,13 @@ function App() {
       <div className={`absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-gradient-to-br ${getBlobGradient()} blur-[100px] transition-all duration-1000 animate-pulse`}></div>
 
       <div className="relative w-full max-w-[440px] mx-auto z-10">
-        <div className="mb-6">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900 drop-shadow-sm">
-            Weather
-          </h1>
-        </div>
+        <div className="bg-white/40 border border-slate-200/50 backdrop-blur-xl rounded-[32px] p-5 sm:p-6 shadow-xl shadow-slate-300/10 space-y-5">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 drop-shadow-sm px-1">
+              Weather
+            </h1>
+          </div>
 
-        <div className="bg-white/40 border border-slate-200/50 backdrop-blur-xl rounded-[32px] p-5 sm:p-6 shadow-xl shadow-slate-300/10 space-y-6">
           <form onSubmit={handleSearch} className="flex items-center gap-2 relative">
             <div className="relative flex-1">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
