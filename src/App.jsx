@@ -29,11 +29,24 @@ const iconMap = {
   HelpCircle
 }
 
+const formatLocalTime = () => {
+  const now = new Date()
+  let hours = now.getHours()
+  const minutes = now.getMinutes()
+  const ampm = hours >= 12 ? 'PM' : 'AM'
+  hours = hours % 12
+  hours = hours ? hours : 12
+  const minutesStr = minutes < 10 ? '0' + minutes : minutes
+  const hoursStr = hours < 10 ? '0' + hours : hours
+  return `${hoursStr}:${minutesStr} ${ampm}`
+}
+
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeSearchName, setActiveSearchName] = useState('')
   const [location, setLocation] = useState(null)
   const [weather, setWeather] = useState(null)
+  const [checkedAt, setCheckedAt] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -55,6 +68,7 @@ function App() {
         setLocation(loc)
         const wData = await getCurrentWeather(loc.latitude, loc.longitude)
         setWeather(wData)
+        setCheckedAt(formatLocalTime())
       }
     } catch (err) {
       setError('Failed to fetch weather data. Please try again.')
@@ -163,6 +177,18 @@ function App() {
               <p className="text-slate-400">Search a city to see weather info.</p>
             )}
           </div>
+
+          {checkedAt && !loading && !error && (
+            <div className="flex items-center justify-center gap-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-4">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>local check-in {checkedAt}</span>
+              <span>•</span>
+              <span>data via Open-Meteo</span>
+            </div>
+          )}
         </div>
       </div>
     </div>
