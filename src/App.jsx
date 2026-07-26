@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Search, Loader2 } from 'lucide-react'
+import { Search, Loader2, AlertCircle } from 'lucide-react'
 import { geocodeCity, getCurrentWeather } from './services/weather'
 
 function App() {
@@ -74,7 +74,11 @@ function App() {
                 <p className="text-sm font-medium text-slate-500 animate-pulse">Reading station sensors...</p>
               </div>
             ) : error ? (
-              <p className="text-red-500 font-medium">{error}</p>
+              <div className="flex flex-col items-center justify-center py-8 px-4 text-rose-500 bg-rose-50/50 border border-rose-100 rounded-xl gap-2.5">
+                <AlertCircle className="w-8 h-8 text-rose-400" />
+                <p className="text-sm font-medium text-rose-800">{error}</p>
+                <p className="text-xs text-rose-400">Please check spelling or try another query.</p>
+              </div>
             ) : location && weather ? (
               <div>
                 <p className="font-semibold text-slate-900 text-base">{location.name}</p>
