@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Search,
   Loader2,
@@ -50,11 +50,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const handleSearch = async (e) => {
-    e.preventDefault()
-    if (!searchQuery.trim()) return
-
-    const city = searchQuery.trim()
+  const fetchWeather = async (city) => {
     setActiveSearchName(city)
     setLoading(true)
     setError(null)
@@ -78,6 +74,16 @@ function App() {
       setLoading(false)
     }
   }
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    if (!searchQuery.trim()) return
+    fetchWeather(searchQuery.trim())
+  }
+
+  useEffect(() => {
+    fetchWeather('Portland')
+  }, [])
 
   const condition = weather ? getWeatherCondition(weather.weatherCode) : null
   const WeatherIcon = condition ? (iconMap[condition.icon] || HelpCircle) : HelpCircle
