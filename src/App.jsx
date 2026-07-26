@@ -89,8 +89,8 @@ function App() {
   const WeatherIcon = condition ? (iconMap[condition.icon] || HelpCircle) : HelpCircle
 
   return (
-    <div className="min-h-screen bg-[#f4f7fa] text-slate-800 flex items-center justify-center p-4 font-sans selection:bg-[#f8b461]/35 selection:text-[#e07d16]">
-      <div className="w-full max-w-[480px]">
+    <div className="min-h-screen bg-[#f4f7fa] text-slate-800 flex items-center justify-center p-4 sm:p-6 font-sans selection:bg-[#f8b461]/35 selection:text-[#e07d16]">
+      <div className="w-full max-w-[440px] mx-auto">
         <div className="mb-6">
           <p className="text-[11px] uppercase font-bold tracking-widest text-slate-400 mb-1">
             Station Readout
@@ -120,15 +120,15 @@ function App() {
             </button>
           </form>
 
-          <div className="bg-white/80 backdrop-blur-md border border-white/60 rounded-[24px] p-8 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-white text-center transition-all duration-500">
+          <div className="bg-white/80 backdrop-blur-md border border-white/60 rounded-[24px] p-6 sm:p-8 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-white text-center transition-all duration-500">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#e07d16]">
                 <Loader2 className="w-8 h-8 animate-spin" />
                 <p className="text-sm font-medium text-slate-500 animate-pulse">Reading sensors for {activeSearchName}...</p>
               </div>
             ) : error ? (
-              <div className="flex flex-col items-center justify-center py-8 px-4 text-rose-500 bg-rose-50/50 border border-rose-100 rounded-xl gap-2.5 animate-bounce">
-                <AlertCircle className="w-8 h-8 text-rose-400 animate-pulse" />
+              <div className="flex flex-col items-center justify-center py-8 px-4 text-rose-500 bg-rose-50/50 border border-rose-100 rounded-xl gap-2.5">
+                <AlertCircle className="w-8 h-8 text-rose-400" />
                 <p className="text-sm font-medium text-rose-800">{error}</p>
                 <p className="text-xs text-rose-400">Please check spelling or try another query.</p>
               </div>
