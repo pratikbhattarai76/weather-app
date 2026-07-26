@@ -103,7 +103,7 @@ function App() {
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#e07d16]">
                 <Loader2 className="w-8 h-8 animate-spin" />
-                <p className="text-sm font-medium text-slate-500 animate-pulse">Reading sensors for {activeSearchName}...</p>
+                <p className="text-sm font-medium text-slate-500 animate-pulse">Reading data of {activeSearchName}...</p>
               </div>
             ) : error ? (
               <div className="flex flex-col items-center justify-center py-8 px-4 text-rose-500 bg-rose-50/50 border border-rose-100 rounded-xl gap-2.5">
