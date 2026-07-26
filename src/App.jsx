@@ -147,6 +147,16 @@ function App() {
                       <p className="text-sm font-semibold text-slate-700">{weather.humidity}{weather.humidityUnit}</p>
                     </div>
                   </div>
+
+                  <div className="bg-slate-50/50 border border-slate-100/80 rounded-xl p-3.5 flex items-center gap-3 text-left">
+                    <div className="p-2 bg-teal-50 rounded-lg text-teal-500">
+                      <Wind className="w-4 h-4 stroke-[2]" />
+                    </div>
+                    <div>
+                      <p className="text-[9px] uppercase font-bold tracking-wider text-slate-400">Wind Speed</p>
+                      <p className="text-sm font-semibold text-slate-700">{weather.windSpeed}{weather.windSpeedUnit}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : (
