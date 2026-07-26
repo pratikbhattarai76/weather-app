@@ -1,20 +1,38 @@
 import React from 'react'
+import { Search } from 'lucide-react'
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#0b0f17] text-slate-100 flex items-center justify-center p-4 font-sans selection:bg-[#f8b461]/30 selection:text-[#f8b461]">
+    <div className="min-h-screen bg-[#f4f7fa] text-slate-800 flex items-center justify-center p-4 font-sans selection:bg-[#f8b461]/30 selection:text-[#e07d16]">
       <div className="w-full max-w-[480px]">
         <div className="mb-6">
-          <p className="text-[11px] uppercase font-semibold tracking-widest text-slate-500 mb-1">
+          <p className="text-[11px] uppercase font-bold tracking-widest text-slate-400 mb-1">
             Station Readout
           </p>
-          <h1 className="text-3xl font-medium tracking-tight text-slate-100">
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
             Current Conditions
           </h1>
         </div>
 
         <div className="space-y-6">
-          <div className="p-4 border border-dashed border-slate-800 rounded-xl text-center text-slate-500 text-sm">
+          <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search a city..."
+                className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#f8b461] focus:ring-1 focus:ring-[#f8b461]/50 text-sm transition-all shadow-sm"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-[#f8b461] hover:bg-[#e07d16] hover:text-white text-slate-950 font-medium px-5 py-2.5 rounded-xl text-sm transition-colors cursor-pointer shadow-sm"
+            >
+              Go
+            </button>
+          </form>
+
+          <div className="p-4 border border-dashed border-slate-200 rounded-xl text-center text-slate-400 text-sm bg-white shadow-sm">
             Content Area
           </div>
         </div>
