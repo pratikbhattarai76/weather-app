@@ -245,7 +245,7 @@ function App() {
           </h1>
         </div>
 
-        <div className="space-y-6">
+        <div className="bg-white/40 border border-slate-200/50 backdrop-blur-xl rounded-[32px] p-5 sm:p-6 shadow-xl shadow-slate-300/10 space-y-6">
           <form onSubmit={handleSearch} className="flex items-center gap-2 relative">
             <div className="relative flex-1">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -283,7 +283,7 @@ function App() {
             </button>
           </form>
 
-          <div className={`backdrop-blur-md rounded-[28px] p-6 sm:p-8 shadow-xl shadow-slate-300/30 hover:shadow-2xl hover:shadow-slate-300/40 hover:border-white transition-all duration-700 border ${getCardBackground()}`}>
+          <div className={`backdrop-blur-md rounded-[24px] p-5 sm:p-6 shadow-sm hover:shadow-md hover:border-white transition-all duration-750 border ${getCardBackground()}`}>
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#e07d16]">
                 <Loader2 className="w-8 h-8 animate-spin" />
