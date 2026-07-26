@@ -67,7 +67,7 @@ function App() {
             </button>
           </form>
 
-          <div className="p-4 border border-dashed border-slate-200 rounded-xl text-center text-slate-400 text-sm bg-white shadow-sm">
+          <div className="p-6 border border-slate-200/60 rounded-2xl text-center text-slate-400 text-sm bg-white shadow-sm">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#e07d16]">
                 <Loader2 className="w-8 h-8 animate-spin" />
@@ -80,12 +80,14 @@ function App() {
                 <p className="text-xs text-rose-400">Please check spelling or try another query.</p>
               </div>
             ) : location && weather ? (
-              <div>
-                <p className="font-semibold text-slate-900 text-base">{location.name}</p>
-                <p className="text-xs text-slate-400 uppercase font-bold tracking-widest mt-0.5">
-                  {location.region ? `${location.region}, ` : ''}{location.country}
-                </p>
-                <div className="mt-3 text-2xl font-bold text-slate-900">
+              <div className="space-y-4">
+                <div>
+                  <h2 className="text-2xl font-semibold text-slate-850 tracking-tight">{location.name}</h2>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mt-1">
+                    {location.region ? `${location.region}, ` : ''}{location.country}
+                  </p>
+                </div>
+                <div className="mt-3 text-3xl font-bold text-slate-900">
                   {weather.temperature}{weather.tempUnit}
                 </div>
                 <p className="text-xs text-slate-500 mt-1">
