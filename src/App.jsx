@@ -154,7 +154,7 @@ function App() {
       <div className="w-full max-w-[440px] mx-auto">
         <div className="mb-6">
           <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
-            Current Conditions
+            Weather
           </h1>
         </div>
 
