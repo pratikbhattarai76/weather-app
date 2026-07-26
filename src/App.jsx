@@ -87,8 +87,13 @@ function App() {
                     {location.region ? `${location.region}, ` : ''}{location.country}
                   </p>
                 </div>
-                <div className="mt-3 text-3xl font-bold text-slate-900">
-                  {weather.temperature}{weather.tempUnit}
+                <div className="flex items-start justify-center gap-0.5 my-6 text-slate-900">
+                  <span className="text-7xl font-semibold tracking-tighter">
+                    {parseFloat(weather.temperature).toFixed(1)}
+                  </span>
+                  <span className="text-2xl font-medium text-[#e07d16] mt-2">
+                    {weather.tempUnit}
+                  </span>
                 </div>
                 <p className="text-xs text-slate-500 mt-1">
                   Humidity: {weather.humidity}{weather.humidityUnit}
