@@ -1,13 +1,33 @@
 import React, { useState } from 'react'
 import { Search } from 'lucide-react'
+import { geocodeCity } from './services/weather'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [location, setLocation] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault()
     if (!searchQuery.trim()) return
-    console.log('Searching for:', searchQuery)
+
+    setLoading(true)
+    setError(null)
+    try {
+      const loc = await geocodeCity(searchQuery)
+      if (!loc) {
+        setError('Invalid city name or city not found.')
+        setLocation(null)
+      } else {
+        setLocation(loc)
+      }
+    } catch (err) {
+      setError('Failed to fetch city information. Please try again.')
+      setLocation(null)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -43,7 +63,23 @@ function App() {
           </form>
 
           <div className="p-4 border border-dashed border-slate-200 rounded-xl text-center text-slate-400 text-sm bg-white shadow-sm">
-            Content Area
+            {loading ? (
+              <p>Searching...</p>
+            ) : error ? (
+              <p className="text-red-500 font-medium">{error}</p>
+            ) : location ? (
+              <div>
+                <p className="font-semibold text-slate-900">{location.name}</p>
+                <p className="text-xs text-slate-400 uppercase font-bold tracking-widest mt-0.5">
+                  {location.region ? `${location.region}, ` : ''}{location.country}
+                </p>
+                <p className="text-xs text-slate-500 mt-1">
+                  ({location.latitude.toFixed(4)}°, {location.longitude.toFixed(4)}°)
+                </p>
+              </div>
+            ) : (
+              <p>Search a city to see weather info.</p>
+            )}
           </div>
         </div>
       </div>
