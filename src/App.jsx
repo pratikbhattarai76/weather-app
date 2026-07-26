@@ -89,7 +89,7 @@ function App() {
   const WeatherIcon = condition ? (iconMap[condition.icon] || HelpCircle) : HelpCircle
 
   return (
-    <div className="min-h-screen bg-[#f4f7fa] text-slate-800 flex items-center justify-center p-4 font-sans selection:bg-[#f8b461]/30 selection:text-[#e07d16]">
+    <div className="min-h-screen bg-[#f4f7fa] text-slate-800 flex items-center justify-center p-4 font-sans selection:bg-[#f8b461]/35 selection:text-[#e07d16]">
       <div className="w-full max-w-[480px]">
         <div className="mb-6">
           <p className="text-[11px] uppercase font-bold tracking-widest text-slate-400 mb-1">
@@ -109,39 +109,39 @@ function App() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search a city..."
-                className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#f8b461] focus:ring-1 focus:ring-[#f8b461]/50 text-sm transition-all shadow-sm"
+                className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#f8b461]/60 focus:ring-1 focus:ring-[#f8b461]/30 text-sm transition-all shadow-sm"
               />
             </div>
             <button
               type="submit"
-              className="bg-[#f8b461] hover:bg-[#e07d16] hover:text-white text-slate-950 font-medium px-5 py-2.5 rounded-xl text-sm transition-colors cursor-pointer shadow-sm"
+              className="bg-[#f8b461] hover:bg-[#e07d16] hover:text-white text-slate-950 hover:scale-[1.03] active:scale-[0.97] font-medium px-5 py-2.5 rounded-xl text-sm transition-all duration-200 cursor-pointer shadow-sm"
             >
               Go
             </button>
           </form>
 
-          <div className="bg-white/80 backdrop-blur-md border border-white/60 rounded-[24px] p-8 shadow-xl shadow-slate-200/40 text-center transition-all duration-300">
+          <div className="bg-white/80 backdrop-blur-md border border-white/60 rounded-[24px] p-8 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-white text-center transition-all duration-500">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#e07d16]">
                 <Loader2 className="w-8 h-8 animate-spin" />
                 <p className="text-sm font-medium text-slate-500 animate-pulse">Reading sensors for {activeSearchName}...</p>
               </div>
             ) : error ? (
-              <div className="flex flex-col items-center justify-center py-8 px-4 text-rose-500 bg-rose-50/50 border border-rose-100 rounded-xl gap-2.5">
-                <AlertCircle className="w-8 h-8 text-rose-400" />
+              <div className="flex flex-col items-center justify-center py-8 px-4 text-rose-500 bg-rose-50/50 border border-rose-100 rounded-xl gap-2.5 animate-bounce">
+                <AlertCircle className="w-8 h-8 text-rose-400 animate-pulse" />
                 <p className="text-sm font-medium text-rose-800">{error}</p>
                 <p className="text-xs text-rose-400">Please check spelling or try another query.</p>
               </div>
             ) : location && weather && condition ? (
               <div className="space-y-4">
                 <div>
-                  <h2 className="text-2xl font-semibold text-slate-800 tracking-tight">{location.name}</h2>
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mt-1">
+                  <h2 className="text-2xl font-semibold text-slate-800 tracking-tight transition-all duration-300">{location.name}</h2>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mt-1 transition-all duration-300">
                     {location.region ? `${location.region}, ` : ''}{location.country}
                   </p>
                 </div>
-                <div className="flex items-center justify-center gap-6 my-6">
-                  <WeatherIcon className={`w-16 h-16 ${condition.color} stroke-[1.5] drop-shadow-sm`} />
+                <div className="flex items-center justify-center gap-6 my-6 transition-all duration-500 transform hover:scale-[1.03]">
+                  <WeatherIcon className={`w-16 h-16 ${condition.color} stroke-[1.5] drop-shadow-sm transition-all duration-300`} />
                   <div className="flex flex-col items-start">
                     <div className="flex items-start gap-0.5 text-slate-900">
                       <span className="text-6xl font-semibold tracking-tighter">
@@ -158,8 +158,8 @@ function App() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mt-8 pt-6 border-t border-slate-100">
-                  <div className="bg-slate-50/50 border border-slate-100/80 rounded-xl p-3.5 flex items-center gap-3 text-left">
-                    <div className="p-2 bg-blue-50 rounded-lg text-blue-500">
+                  <div className="bg-slate-50/50 border border-slate-100/80 rounded-xl p-3.5 flex items-center gap-3 text-left hover:bg-slate-50 hover:border-slate-200/80 transition-all duration-300 group">
+                    <div className="p-2 bg-blue-50 rounded-lg text-blue-500 group-hover:scale-110 transition-transform">
                       <Droplet className="w-4 h-4 stroke-[2]" />
                     </div>
                     <div>
@@ -168,8 +168,8 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="bg-slate-50/50 border border-slate-100/80 rounded-xl p-3.5 flex items-center gap-3 text-left">
-                    <div className="p-2 bg-teal-50 rounded-lg text-teal-500">
+                  <div className="bg-slate-50/50 border border-slate-100/80 rounded-xl p-3.5 flex items-center gap-3 text-left hover:bg-slate-50 hover:border-slate-200/80 transition-all duration-300 group">
+                    <div className="p-2 bg-teal-50 rounded-lg text-teal-500 group-hover:scale-110 transition-transform">
                       <Wind className="w-4 h-4 stroke-[2]" />
                     </div>
                     <div>
