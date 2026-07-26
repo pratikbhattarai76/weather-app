@@ -1,16 +1,18 @@
-# React + Vite
+# Weather Station App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple yet elegant and premium Weather App built with React, Vite, ESLint, and Tailwind CSS (v4).
 
-Currently, two official plugins are available:
+## Features
+- **City Search**: Interactively search for any city in the world.
+- **Geocoding API**: Resolves city names to physical coordinates via the Open-Meteo Geocoding API.
+- **Forecast API**: Fetches live current weather conditions using the resolved coordinates.
+- **Exact Decimals**: Displays temperature readings using exact decimal formatting from the API response without rounding up.
+- **Premium Styling**: Structured with Tailwind CSS v4 light theme glassmorphism elements, custom icons, and dynamic status-colored graphics.
+- **Micro-animations**: Interactive hover triggers, click scales, active focuses, and spin loading indicators.
+- **Mobile Responsive**: Scaled and tested for smooth compatibility across desktop and mobile screens.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Technical Architecture
+- Built with standard React hooks (`useState` and `useEffect` where applicable).
+- Data fetches executed asynchronously via modern `async/await` syntax with full network exception fallback handling.
+- Free from code comments to preserve clean workspace aesthetics.
+- Clean ESLint validation.
