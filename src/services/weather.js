@@ -18,3 +18,37 @@ export async function geocodeCity(cityName) {
     timezone: result.timezone
   }
 }
+
+export function getWeatherCondition(code) {
+  const mapping = {
+    0: { description: 'Clear Sky', icon: 'Sun', color: 'text-amber-500' },
+    1: { description: 'Mainly Clear', icon: 'CloudSun', color: 'text-sky-400' },
+    2: { description: 'Partly Cloudy', icon: 'CloudSun', color: 'text-slate-400' },
+    3: { description: 'Overcast', icon: 'Cloud', color: 'text-slate-400' },
+    45: { description: 'Foggy', icon: 'CloudFog', color: 'text-slate-400' },
+    48: { description: 'Foggy', icon: 'CloudFog', color: 'text-slate-400' },
+    51: { description: 'Drizzle', icon: 'CloudDrizzle', color: 'text-blue-400' },
+    53: { description: 'Drizzle', icon: 'CloudDrizzle', color: 'text-blue-400' },
+    55: { description: 'Drizzle', icon: 'CloudDrizzle', color: 'text-blue-400' },
+    56: { description: 'Freezing Drizzle', icon: 'CloudDrizzle', color: 'text-teal-400' },
+    57: { description: 'Freezing Drizzle', icon: 'CloudDrizzle', color: 'text-teal-400' },
+    61: { description: 'Rainy', icon: 'CloudRain', color: 'text-blue-500' },
+    63: { description: 'Rainy', icon: 'CloudRain', color: 'text-blue-500' },
+    65: { description: 'Heavy Rain', icon: 'CloudRain', color: 'text-blue-600' },
+    66: { description: 'Freezing Rain', icon: 'CloudRain', color: 'text-teal-500' },
+    67: { description: 'Freezing Rain', icon: 'CloudRain', color: 'text-teal-500' },
+    71: { description: 'Snowy', icon: 'CloudSnow', color: 'text-sky-300' },
+    73: { description: 'Snowy', icon: 'CloudSnow', color: 'text-sky-300' },
+    75: { description: 'Heavy Snow', icon: 'CloudSnow', color: 'text-sky-400' },
+    77: { description: 'Snow Grains', icon: 'CloudSnow', color: 'text-sky-200' },
+    80: { description: 'Rain Showers', icon: 'CloudRain', color: 'text-blue-500' },
+    81: { description: 'Rain Showers', icon: 'CloudRain', color: 'text-blue-500' },
+    82: { description: 'Violent Rain Showers', icon: 'CloudRain', color: 'text-blue-700' },
+    85: { description: 'Snow Showers', icon: 'CloudSnow', color: 'text-sky-300' },
+    86: { description: 'Snow Showers', icon: 'CloudSnow', color: 'text-sky-300' },
+    95: { description: 'Thunderstorm', icon: 'CloudLightning', color: 'text-amber-600' },
+    96: { description: 'Thunderstorm with Hail', icon: 'CloudLightning', color: 'text-slate-600' },
+    99: { description: 'Thunderstorm with Hail', icon: 'CloudLightning', color: 'text-slate-600' }
+  }
+  return mapping[code] || { description: 'Unknown', icon: 'HelpCircle', color: 'text-slate-400' }
+}
