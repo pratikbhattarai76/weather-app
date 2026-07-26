@@ -33,6 +33,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeSearchName, setActiveSearchName] = useState('')
   const [suggestions, setSuggestions] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
   const [location, setLocation] = useState(null)
   const [weather, setWeather] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -66,6 +67,7 @@ function App() {
     e.preventDefault()
     if (!searchQuery.trim()) return
     setSuggestions([])
+    setShowSuggestions(false)
     fetchWeather(searchQuery.trim())
   }
 
@@ -73,6 +75,7 @@ function App() {
     const displayName = `${item.name}, ${item.country}`
     setSearchQuery(displayName)
     setSuggestions([])
+    setShowSuggestions(false)
     setLoading(true)
     setError(null)
     try {
@@ -99,11 +102,14 @@ function App() {
     setSearchQuery(val)
     if (val.trim().length < 2) {
       setSuggestions([])
+      setShowSuggestions(false)
+    } else {
+      setShowSuggestions(true)
     }
   }
 
   useEffect(() => {
-    if (searchQuery.trim().length < 2) return
+    if (!showSuggestions || searchQuery.trim().length < 2) return
 
     const timer = setTimeout(async () => {
       try {
@@ -123,7 +129,7 @@ function App() {
     }, 300)
 
     return () => clearTimeout(timer)
-  }, [searchQuery])
+  }, [searchQuery, showSuggestions])
 
   const condition = weather ? getWeatherCondition(weather.weatherCode) : null
   const WeatherIcon = condition ? (iconMap[condition.icon] || HelpCircle) : HelpCircle
