@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Search,
   Loader2,
@@ -32,6 +32,7 @@ const iconMap = {
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeSearchName, setActiveSearchName] = useState('')
+  const [suggestions, setSuggestions] = useState([])
   const [location, setLocation] = useState(null)
   const [weather, setWeather] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -64,8 +65,65 @@ function App() {
   const handleSearch = (e) => {
     e.preventDefault()
     if (!searchQuery.trim()) return
+    setSuggestions([])
     fetchWeather(searchQuery.trim())
   }
+
+  const handleSelectSuggestion = async (item) => {
+    const displayName = `${item.name}, ${item.country}`
+    setSearchQuery(displayName)
+    setSuggestions([])
+    setLoading(true)
+    setError(null)
+    try {
+      setLocation({
+        name: item.name,
+        latitude: item.latitude,
+        longitude: item.longitude,
+        region: item.admin1 || '',
+        country: item.country || ''
+      })
+      const wData = await getCurrentWeather(item.latitude, item.longitude)
+      setWeather(wData)
+    } catch {
+      setError('Failed to fetch weather data. Please try again.')
+      setLocation(null)
+      setWeather(null)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleInputChange = (e) => {
+    const val = e.target.value
+    setSearchQuery(val)
+    if (val.trim().length < 2) {
+      setSuggestions([])
+    }
+  }
+
+  useEffect(() => {
+    if (searchQuery.trim().length < 2) return
+
+    const timer = setTimeout(async () => {
+      try {
+        const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(searchQuery.trim())}&count=5&language=en&format=json`
+        const response = await fetch(url)
+        if (response.ok) {
+          const data = await response.json()
+          if (data.results) {
+            setSuggestions(data.results)
+          } else {
+            setSuggestions([])
+          }
+        }
+      } catch {
+        setSuggestions([])
+      }
+    }, 300)
+
+    return () => clearTimeout(timer)
+  }, [searchQuery])
 
   const condition = weather ? getWeatherCondition(weather.weatherCode) : null
   const WeatherIcon = condition ? (iconMap[condition.icon] || HelpCircle) : HelpCircle
@@ -80,16 +138,34 @@ function App() {
         </div>
 
         <div className="space-y-6">
-          <form onSubmit={handleSearch} className="flex items-center gap-2">
+          <form onSubmit={handleSearch} className="flex items-center gap-2 relative">
             <div className="relative flex-1">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleInputChange}
                 placeholder="Search a city..."
                 className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#f8b461]/60 focus:ring-1 focus:ring-[#f8b461]/30 text-sm transition-all shadow-sm"
               />
+
+              {suggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden text-left divide-y divide-slate-100">
+                  {suggestions.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => handleSelectSuggestion(item)}
+                      className="w-full px-4 py-2.5 hover:bg-[#f8b461]/10 flex flex-col text-left transition-colors cursor-pointer"
+                    >
+                      <span className="text-sm font-medium text-slate-800">{item.name}</span>
+                      <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-0.5">
+                        {item.admin1 ? `${item.admin1}, ` : ''}{item.country}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <button
               type="submit"
