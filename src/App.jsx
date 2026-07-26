@@ -98,7 +98,7 @@ function App() {
             </button>
           </form>
 
-          <div className="p-6 border border-slate-200/60 rounded-2xl text-center text-slate-400 text-sm bg-white shadow-sm">
+          <div className="bg-white/80 backdrop-blur-md border border-white/60 rounded-[24px] p-8 shadow-xl shadow-slate-200/40 text-center transition-all duration-300">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#e07d16]">
                 <Loader2 className="w-8 h-8 animate-spin" />
@@ -139,7 +139,7 @@ function App() {
                 </p>
               </div>
             ) : (
-              <p>Search a city to see weather info.</p>
+              <p className="text-slate-400">Search a city to see weather info.</p>
             )}
           </div>
         </div>
