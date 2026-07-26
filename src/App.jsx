@@ -11,7 +11,9 @@ import {
   CloudRain,
   CloudSnow,
   CloudLightning,
-  HelpCircle
+  HelpCircle,
+  Droplet,
+  Wind
 } from 'lucide-react'
 import { geocodeCity, getCurrentWeather, getWeatherCondition } from './services/weather'
 
@@ -134,9 +136,18 @@ function App() {
                     </span>
                   </div>
                 </div>
-                <p className="text-xs text-slate-500 mt-1">
-                  Humidity: {weather.humidity}{weather.humidityUnit}
-                </p>
+
+                <div className="grid grid-cols-2 gap-4 mt-8 pt-6 border-t border-slate-100">
+                  <div className="bg-slate-50/50 border border-slate-100/80 rounded-xl p-3.5 flex items-center gap-3 text-left">
+                    <div className="p-2 bg-blue-50 rounded-lg text-blue-500">
+                      <Droplet className="w-4 h-4 stroke-[2]" />
+                    </div>
+                    <div>
+                      <p className="text-[9px] uppercase font-bold tracking-wider text-slate-400">Humidity</p>
+                      <p className="text-sm font-semibold text-slate-700">{weather.humidity}{weather.humidityUnit}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             ) : (
               <p className="text-slate-400">Search a city to see weather info.</p>
