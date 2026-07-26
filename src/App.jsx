@@ -128,6 +128,21 @@ function App() {
   const condition = weather ? getWeatherCondition(weather.weatherCode) : null
   const WeatherIcon = condition ? (iconMap[condition.icon] || HelpCircle) : HelpCircle
 
+  const getPillColors = (colorClass) => {
+    if (colorClass.includes('amber')) {
+      return 'bg-amber-50 text-amber-600 border-amber-100/60'
+    } else if (colorClass.includes('sky')) {
+      return 'bg-sky-50 text-sky-600 border-sky-100/60'
+    } else if (colorClass.includes('blue')) {
+      return 'bg-blue-50 text-blue-600 border-blue-100/60'
+    } else if (colorClass.includes('teal')) {
+      return 'bg-teal-50 text-teal-600 border-teal-100/60'
+    } else if (colorClass.includes('slate')) {
+      return 'bg-slate-50 text-slate-600 border-slate-100/60'
+    }
+    return 'bg-slate-50 text-slate-500 border-slate-100/60'
+  }
+
   return (
     <div className="min-h-screen bg-[#f4f7fa] text-slate-800 flex items-center justify-center p-4 sm:p-6 font-sans selection:bg-[#f8b461]/35 selection:text-[#e07d16]">
       <div className="w-full max-w-[440px] mx-auto">
@@ -150,7 +165,7 @@ function App() {
               />
 
               {suggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden text-left divide-y divide-slate-100">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden text-left divide-y divide-slate-100/50">
                   {suggestions.map((item) => (
                     <button
                       key={item.id}
@@ -175,7 +190,7 @@ function App() {
             </button>
           </form>
 
-          <div className="bg-white/80 backdrop-blur-md border border-white/60 rounded-[24px] p-6 sm:p-8 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-white text-center transition-all duration-500">
+          <div className="bg-white/80 backdrop-blur-md border border-white/60 rounded-[28px] p-6 sm:p-8 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-white transition-all duration-500">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#e07d16]">
                 <Loader2 className="w-8 h-8 animate-spin" />
@@ -188,31 +203,38 @@ function App() {
                 <p className="text-xs text-rose-400">Please check spelling or try another query.</p>
               </div>
             ) : location && weather && condition ? (
-              <div className="space-y-4">
-                <div>
-                  <h2 className="text-2xl font-semibold text-slate-800 tracking-tight transition-all duration-300">{location.name}</h2>
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mt-1 transition-all duration-300">
-                    {location.region ? `${location.region}, ` : ''}{location.country}
-                  </p>
-                </div>
-                <div className="flex items-center justify-center gap-6 my-6 transition-all duration-500 transform hover:scale-[1.03]">
-                  <WeatherIcon className={`w-16 h-16 ${condition.color} stroke-[1.5] drop-shadow-sm transition-all duration-300`} />
-                  <div className="flex flex-col items-start">
-                    <div className="flex items-start gap-0.5 text-slate-900">
-                      <span className="text-6xl font-semibold tracking-tighter">
+              <div className="space-y-6">
+                <div className="flex items-start justify-between text-left gap-4">
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <h2 className="text-2xl font-bold text-slate-800 tracking-tight leading-tight">{location.name}</h2>
+                      <p className="text-[9px] uppercase font-bold tracking-widest text-slate-400 mt-1">
+                        {location.region ? `${location.region}, ` : ''}{location.country}
+                      </p>
+                    </div>
+
+                    <div className="flex items-start gap-0.5 text-slate-900 mt-4">
+                      <span className="text-5xl sm:text-6xl font-light tracking-tighter leading-none">
                         {parseFloat(weather.temperature).toFixed(1)}
                       </span>
-                      <span className="text-xl font-medium text-[#e07d16] mt-1.5">
+                      <span className="text-lg font-semibold text-[#e07d16] mt-0.5">
                         {weather.tempUnit}
                       </span>
                     </div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#e07d16] mt-1">
-                      {condition.description}
-                    </span>
+
+                    <div>
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider mt-3.5 border ${getPillColors(condition.color)}`}>
+                        {condition.description}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-center bg-slate-50/50 border border-slate-100 rounded-2xl w-24 h-24 sm:w-28 sm:h-28 shadow-inner shrink-0 self-center">
+                    <WeatherIcon className={`w-12 h-12 sm:w-14 sm:h-14 ${condition.color} stroke-[1.5] drop-shadow-sm`} />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mt-8 pt-6 border-t border-slate-100">
+                <div className="grid grid-cols-2 gap-4 pt-6 border-t border-slate-100">
                   <div className="bg-slate-50/50 border border-slate-100/80 rounded-xl p-3.5 flex items-center gap-3 text-left hover:bg-slate-50 hover:border-slate-200/80 transition-all duration-300 group">
                     <div className="p-2 bg-blue-50 rounded-lg text-blue-500 group-hover:scale-110 transition-transform">
                       <Droplet className="w-4 h-4 stroke-[2]" />
