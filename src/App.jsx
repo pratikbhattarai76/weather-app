@@ -136,24 +136,111 @@ function App() {
 
   const getPillColors = (colorClass) => {
     if (colorClass.includes('amber')) {
-      return 'bg-amber-50 text-amber-600 border-amber-100/60'
+      return 'bg-amber-100/75 text-amber-700 border-amber-200/50'
     } else if (colorClass.includes('sky')) {
-      return 'bg-sky-50 text-sky-600 border-sky-100/60'
+      return 'bg-sky-100/75 text-sky-700 border-sky-200/50'
     } else if (colorClass.includes('blue')) {
-      return 'bg-blue-50 text-blue-600 border-blue-100/60'
+      return 'bg-blue-100/75 text-blue-700 border-blue-200/50'
     } else if (colorClass.includes('teal')) {
-      return 'bg-teal-50 text-teal-600 border-teal-100/60'
+      return 'bg-teal-100/75 text-teal-700 border-teal-200/50'
     } else if (colorClass.includes('slate')) {
-      return 'bg-slate-50 text-slate-600 border-slate-100/60'
+      return 'bg-slate-100/75 text-slate-700 border-slate-200/50'
     }
-    return 'bg-slate-50 text-slate-500 border-slate-100/60'
+    return 'bg-slate-100/75 text-slate-600 border-slate-200/50'
+  }
+
+  const getBlobGradient = () => {
+    if (!weather) return 'from-violet-400/25 via-pink-400/20 to-indigo-400/25'
+    switch (weather.weatherCode) {
+      case 0:
+        return 'from-amber-400/35 via-orange-400/25 to-yellow-300/30'
+      case 1:
+      case 2:
+      case 3:
+        return 'from-slate-400/30 via-blue-400/20 to-slate-300/25'
+      case 45:
+      case 48:
+        return 'from-zinc-400/30 via-slate-400/20 to-stone-400/25'
+      case 51:
+      case 53:
+      case 55:
+      case 56:
+      case 57:
+      case 61:
+      case 63:
+      case 65:
+      case 66:
+      case 67:
+      case 80:
+      case 81:
+      case 82:
+        return 'from-blue-500/35 via-indigo-500/25 to-cyan-400/30'
+      case 71:
+      case 73:
+      case 75:
+      case 77:
+      case 85:
+      case 86:
+        return 'from-sky-300/40 via-blue-200/30 to-sky-100/30'
+      case 95:
+      case 96:
+      case 99:
+        return 'from-purple-800/30 via-amber-600/20 to-indigo-900/35'
+      default:
+        return 'from-violet-400/25 via-pink-400/20 to-indigo-400/25'
+    }
+  }
+
+  const getCardBackground = () => {
+    if (!weather) return 'bg-white border-white/60'
+    switch (weather.weatherCode) {
+      case 0:
+        return 'bg-gradient-to-b from-amber-50/90 to-white/95 border-amber-100/50'
+      case 1:
+      case 2:
+      case 3:
+        return 'bg-gradient-to-b from-slate-50/90 to-white/95 border-slate-200/50'
+      case 45:
+      case 48:
+        return 'bg-gradient-to-b from-zinc-50/90 to-white/95 border-zinc-200/50'
+      case 51:
+      case 53:
+      case 55:
+      case 56:
+      case 57:
+      case 61:
+      case 63:
+      case 65:
+      case 66:
+      case 67:
+      case 80:
+      case 81:
+      case 82:
+        return 'bg-gradient-to-b from-blue-50/90 to-white/95 border-blue-100/50'
+      case 71:
+      case 73:
+      case 75:
+      case 77:
+      case 85:
+      case 86:
+        return 'bg-gradient-to-b from-sky-50/90 to-white/95 border-sky-100/50'
+      case 95:
+      case 96:
+      case 99:
+        return 'bg-gradient-to-b from-purple-50/90 to-white/95 border-purple-100/50'
+      default:
+        return 'bg-white border-white/60'
+    }
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f7fa] text-slate-800 flex items-center justify-center p-4 sm:p-6 font-sans selection:bg-[#f8b461]/35 selection:text-[#e07d16]">
-      <div className="w-full max-w-[440px] mx-auto">
+    <div className="relative min-h-screen bg-[#e9edf2] text-slate-800 flex items-center justify-center p-4 sm:p-6 font-sans selection:bg-[#f8b461]/35 selection:text-[#e07d16] overflow-hidden">
+      <div className={`absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-tr ${getBlobGradient()} blur-[100px] transition-all duration-1000 animate-pulse`}></div>
+      <div className={`absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-gradient-to-br ${getBlobGradient()} blur-[100px] transition-all duration-1000 animate-pulse`}></div>
+
+      <div className="relative w-full max-w-[440px] mx-auto z-10">
         <div className="mb-6">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900 drop-shadow-sm">
             Weather
           </h1>
         </div>
@@ -196,7 +283,7 @@ function App() {
             </button>
           </form>
 
-          <div className="bg-white/80 backdrop-blur-md border border-white/60 rounded-[28px] p-6 sm:p-8 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-white transition-all duration-500">
+          <div className={`backdrop-blur-md rounded-[28px] p-6 sm:p-8 shadow-xl shadow-slate-300/30 hover:shadow-2xl hover:shadow-slate-300/40 hover:border-white transition-all duration-700 border ${getCardBackground()}`}>
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#e07d16]">
                 <Loader2 className="w-8 h-8 animate-spin" />
@@ -235,13 +322,13 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-center bg-slate-50/50 border border-slate-100 rounded-2xl w-24 h-24 sm:w-28 sm:h-28 shadow-inner shrink-0 self-center">
+                  <div className="flex items-center justify-center bg-white/90 border border-slate-100 rounded-2xl w-24 h-24 sm:w-28 sm:h-28 shadow-sm shrink-0 self-center">
                     <WeatherIcon className={`w-12 h-12 sm:w-14 sm:h-14 ${condition.color} stroke-[1.5] drop-shadow-sm`} />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 pt-6 border-t border-slate-100">
-                  <div className="bg-slate-50/50 border border-slate-100/80 rounded-xl p-3.5 flex items-center gap-3 text-left hover:bg-slate-50 hover:border-slate-200/80 transition-all duration-300 group">
+                  <div className="bg-white/80 border border-slate-100/60 rounded-xl p-3.5 flex items-center gap-3 text-left hover:bg-white hover:border-slate-200/80 transition-all duration-300 group shadow-sm">
                     <div className="p-2 bg-blue-50 rounded-lg text-blue-500 group-hover:scale-110 transition-transform">
                       <Droplet className="w-4 h-4 stroke-[2]" />
                     </div>
@@ -251,7 +338,7 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="bg-slate-50/50 border border-slate-100/80 rounded-xl p-3.5 flex items-center gap-3 text-left hover:bg-slate-50 hover:border-slate-200/80 transition-all duration-300 group">
+                  <div className="bg-white/80 border border-slate-100/60 rounded-xl p-3.5 flex items-center gap-3 text-left hover:bg-white hover:border-slate-200/80 transition-all duration-300 group shadow-sm">
                     <div className="p-2 bg-teal-50 rounded-lg text-teal-500 group-hover:scale-110 transition-transform">
                       <Wind className="w-4 h-4 stroke-[2]" />
                     </div>
