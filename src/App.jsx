@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Search } from 'lucide-react'
-import { geocodeCity } from './services/weather'
+import { geocodeCity, getCurrentWeather } from './services/weather'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [location, setLocation] = useState(null)
+  const [weather, setWeather] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -19,12 +20,16 @@ function App() {
       if (!loc) {
         setError('Invalid city name or city not found.')
         setLocation(null)
+        setWeather(null)
       } else {
         setLocation(loc)
+        const wData = await getCurrentWeather(loc.latitude, loc.longitude)
+        setWeather(wData)
       }
     } catch (err) {
-      setError('Failed to fetch city information. Please try again.')
+      setError('Failed to fetch weather data. Please try again.')
       setLocation(null)
+      setWeather(null)
     } finally {
       setLoading(false)
     }
@@ -67,14 +72,17 @@ function App() {
               <p>Searching...</p>
             ) : error ? (
               <p className="text-red-500 font-medium">{error}</p>
-            ) : location ? (
+            ) : location && weather ? (
               <div>
-                <p className="font-semibold text-slate-900">{location.name}</p>
+                <p className="font-semibold text-slate-900 text-base">{location.name}</p>
                 <p className="text-xs text-slate-400 uppercase font-bold tracking-widest mt-0.5">
                   {location.region ? `${location.region}, ` : ''}{location.country}
                 </p>
+                <div className="mt-3 text-2xl font-bold text-slate-900">
+                  {weather.temperature}{weather.tempUnit}
+                </div>
                 <p className="text-xs text-slate-500 mt-1">
-                  ({location.latitude.toFixed(4)}°, {location.longitude.toFixed(4)}°)
+                  Humidity: {weather.humidity}{weather.humidityUnit}
                 </p>
               </div>
             ) : (
