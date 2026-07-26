@@ -52,3 +52,21 @@ export function getWeatherCondition(code) {
   }
   return mapping[code] || { description: 'Unknown', icon: 'HelpCircle', color: 'text-slate-400' }
 }
+
+export async function getCurrentWeather(latitude, longitude) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error('failed to fetch weather data')
+  }
+  const data = await response.json()
+  return {
+    temperature: data.current.temperature_2m,
+    humidity: data.current.relative_humidity_2m,
+    weatherCode: data.current.weather_code,
+    windSpeed: data.current.wind_speed_10m,
+    tempUnit: data.current_units.temperature_2m,
+    humidityUnit: data.current_units.relative_humidity_2m,
+    windSpeedUnit: data.current_units.wind_speed_10m
+  }
+}
