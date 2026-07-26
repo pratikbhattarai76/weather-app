@@ -1,9 +1,35 @@
 import React, { useState } from 'react'
-import { Search, Loader2, AlertCircle } from 'lucide-react'
-import { geocodeCity, getCurrentWeather } from './services/weather'
+import {
+  Search,
+  Loader2,
+  AlertCircle,
+  Sun,
+  CloudSun,
+  Cloud,
+  CloudFog,
+  CloudDrizzle,
+  CloudRain,
+  CloudSnow,
+  CloudLightning,
+  HelpCircle
+} from 'lucide-react'
+import { geocodeCity, getCurrentWeather, getWeatherCondition } from './services/weather'
+
+const iconMap = {
+  Sun,
+  CloudSun,
+  Cloud,
+  CloudFog,
+  CloudDrizzle,
+  CloudRain,
+  CloudSnow,
+  CloudLightning,
+  HelpCircle
+}
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [activeSearchName, setActiveSearchName] = useState('')
   const [location, setLocation] = useState(null)
   const [weather, setWeather] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -13,12 +39,14 @@ function App() {
     e.preventDefault()
     if (!searchQuery.trim()) return
 
+    const city = searchQuery.trim()
+    setActiveSearchName(city)
     setLoading(true)
     setError(null)
     try {
-      const loc = await geocodeCity(searchQuery)
+      const loc = await geocodeCity(city)
       if (!loc) {
-        setError('Invalid city name or city not found.')
+        setError(`Invalid city name or city not found: "${city}"`)
         setLocation(null)
         setWeather(null)
       } else {
@@ -34,6 +62,9 @@ function App() {
       setLoading(false)
     }
   }
+
+  const condition = weather ? getWeatherCondition(weather.weatherCode) : null
+  const WeatherIcon = condition ? (iconMap[condition.icon] || HelpCircle) : HelpCircle
 
   return (
     <div className="min-h-screen bg-[#f4f7fa] text-slate-800 flex items-center justify-center p-4 font-sans selection:bg-[#f8b461]/30 selection:text-[#e07d16]">
@@ -71,7 +102,7 @@ function App() {
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#e07d16]">
                 <Loader2 className="w-8 h-8 animate-spin" />
-                <p className="text-sm font-medium text-slate-500 animate-pulse">Reading station sensors...</p>
+                <p className="text-sm font-medium text-slate-500 animate-pulse">Reading sensors for {activeSearchName}...</p>
               </div>
             ) : error ? (
               <div className="flex flex-col items-center justify-center py-8 px-4 text-rose-500 bg-rose-50/50 border border-rose-100 rounded-xl gap-2.5">
@@ -79,21 +110,29 @@ function App() {
                 <p className="text-sm font-medium text-rose-800">{error}</p>
                 <p className="text-xs text-rose-400">Please check spelling or try another query.</p>
               </div>
-            ) : location && weather ? (
+            ) : location && weather && condition ? (
               <div className="space-y-4">
                 <div>
-                  <h2 className="text-2xl font-semibold text-slate-850 tracking-tight">{location.name}</h2>
+                  <h2 className="text-2xl font-semibold text-slate-800 tracking-tight">{location.name}</h2>
                   <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mt-1">
                     {location.region ? `${location.region}, ` : ''}{location.country}
                   </p>
                 </div>
-                <div className="flex items-start justify-center gap-0.5 my-6 text-slate-900">
-                  <span className="text-7xl font-semibold tracking-tighter">
-                    {parseFloat(weather.temperature).toFixed(1)}
-                  </span>
-                  <span className="text-2xl font-medium text-[#e07d16] mt-2">
-                    {weather.tempUnit}
-                  </span>
+                <div className="flex items-center justify-center gap-6 my-6">
+                  <WeatherIcon className={`w-16 h-16 ${condition.color} stroke-[1.5] drop-shadow-sm`} />
+                  <div className="flex flex-col items-start">
+                    <div className="flex items-start gap-0.5 text-slate-900">
+                      <span className="text-6xl font-semibold tracking-tighter">
+                        {parseFloat(weather.temperature).toFixed(1)}
+                      </span>
+                      <span className="text-xl font-medium text-[#e07d16] mt-1.5">
+                        {weather.tempUnit}
+                      </span>
+                    </div>
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#e07d16] mt-1">
+                      {condition.description}
+                    </span>
+                  </div>
                 </div>
                 <p className="text-xs text-slate-500 mt-1">
                   Humidity: {weather.humidity}{weather.humidityUnit}
