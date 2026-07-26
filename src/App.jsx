@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Search } from 'lucide-react'
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    if (!searchQuery.trim()) return
+    console.log('Searching for:', searchQuery)
+  }
+
   return (
     <div className="min-h-screen bg-[#f4f7fa] text-slate-800 flex items-center justify-center p-4 font-sans selection:bg-[#f8b461]/30 selection:text-[#e07d16]">
       <div className="w-full max-w-[480px]">
@@ -15,11 +23,13 @@ function App() {
         </div>
 
         <div className="space-y-6">
-          <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2">
+          <form onSubmit={handleSearch} className="flex items-center gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search a city..."
                 className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#f8b461] focus:ring-1 focus:ring-[#f8b461]/50 text-sm transition-all shadow-sm"
               />
